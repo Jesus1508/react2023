@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useForm } from "../hooks/useForm"
 
 export const TodoAdd = ( { onNewTodo } ) => {
