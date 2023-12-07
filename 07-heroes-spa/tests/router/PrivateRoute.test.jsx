@@ -1,8 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { AuthContext } from "../../src/auth";
-import { PublicRoute } from "../../src/router/PublicRoute";
-
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+// eslint-disable-next-line no-unused-vars
+import { MemoryRouter } from 'react-router-dom'
 import { PrivateRoute } from "../../src/router/PrivateRoute";
 
 /* eslint-disable no-undef */

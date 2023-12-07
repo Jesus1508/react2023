@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useLocation, useNavigate } from 'react-router-dom'
-import queryString from 'query-string'
+import queryString from 'querystring'
 import { useForm } from "../../hooks/useForm"
 import { HeroCard } from "../components"
 import { getHeroesByName } from '../helpers'
