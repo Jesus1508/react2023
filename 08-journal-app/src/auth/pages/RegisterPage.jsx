@@ -1,32 +1,48 @@
+/* eslint-disable no-extra-boolean-cast */
+import { useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
-import { Button, Grid, Link, TextField, Typography } from "@mui/material"
+import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material"
 import { AuthLayout } from '../layout/AuthLayout'
 import { useForm } from '../../hooks'
+import { startCreateUserWithEmailPassword } from '../../store'
 
 const formData = {
-    email: 'jesus1508@gmail.com',
-    password: '123456',
-    displayName: 'Jesus Solis'
+    email: '',
+    password: '',
+    displayName: ''
 }
 
 const formValidations = {
     email: [ (value) => value.includes('@'), 'El correo debe tener un @'],
-    password: [ (value) => value.length <= 6, 'El password debe contener mas de 6 caracteres'],
+    password: [ (value) => value.length >= 6, 'El password debe contener mas de 6 caracteres'],
     displayName: [ (value) => value.length >= 1, 'El nombre es obligatorio']
 }
 
 export const RegisterPage = () => {
+
+    const dispatch = useDispatch()
+
+    const [formSubmited, setFormSubmited] = useState(false)
+
+    const { status, errorMessage } = useSelector(state => state.auth)
+
+    const isCheckingAuthentication = useMemo( () => status === 'checking', [ status ] )
 
     const { 
         formState, displayName, email, password, onInputChange,
         isFormValid, displayNameValid, emailValid, passwordValid, 
     } = useForm( formData, formValidations )
 
-    console.log(displayNameValid)
 
     const onSubmit = ( event ) => {
         event.preventDefault()
-        console.log(formState)
+        setFormSubmited( true )
+
+        if( !isFormValid ) return
+
+        dispatch( startCreateUserWithEmailPassword( formState ) )
+        
     }
 
     return (
@@ -42,7 +58,7 @@ export const RegisterPage = () => {
                             name='displayName'
                             value={ displayName }
                             onChange={ onInputChange }
-                            error={ !displayNameValid }
+                            error={ !!displayNameValid && formSubmited }
                             helperText={ displayNameValid }
                         />
                     </Grid>
@@ -55,6 +71,8 @@ export const RegisterPage = () => {
                             name='email'
                             value={ email }
                             onChange={ onInputChange }
+                            error={ !!emailValid && formSubmited }
+                            helperText={ emailValid }
                         />
                     </Grid>
                     <Grid item xs={ 12 } sx={{ mt:2 }}>
@@ -66,12 +84,24 @@ export const RegisterPage = () => {
                             name='password'
                             value={ password }
                             onChange={ onInputChange }
+                            error={ !!passwordValid && formSubmited }
+                            helperText={ passwordValid }
                         />
                     </Grid>
 
                     <Grid container spacing={ 2 } sx={{ mb:2, mt:1 }}>
+
+                        <Grid 
+                            item 
+                            xs={ 12 }
+                            display={ !!errorMessage ? '' : 'none' }
+                        >
+                            <Alert severity='error'>{ errorMessage }</Alert>
+                        </Grid>
+
                         <Grid item xs={ 12 }>
                             <Button 
+                                disabled= { isCheckingAuthentication }
                                 type='submit'
                                 variant='contained' 
                                 fullWidth
