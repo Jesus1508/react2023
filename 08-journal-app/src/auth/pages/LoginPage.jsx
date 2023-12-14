@@ -13,8 +13,8 @@ import { startGoogleSignIn, startLoginWithEmailPassword } from '../../store/auth
 export const LoginPage = () => {
 
     const { status, errorMessage } = useSelector(state => state.auth)
-
     const dispatch = useDispatch()
+    
     const { email, password, onInputChange } = useForm({
         email: '',
         password: ''
@@ -24,16 +24,13 @@ export const LoginPage = () => {
 
     const onSubmit = ( event ) => {
         event.preventDefault();
-        
         // dispatch( checkingAuthentication() )
         dispatch( startLoginWithEmailPassword({ email, password }) )
-        
     }
 
     const onGoogleSignIn = () => {
         dispatch( startGoogleSignIn() )
     }
-
 
     return (
         <AuthLayout title='Login'>

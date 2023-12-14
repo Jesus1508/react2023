@@ -30,7 +30,7 @@ export const startCreateUserWithEmailPassword = ( { email, password, displayName
 
         const result = await registerUserWithEmailPassword( { email, password, displayName } )
         
-        if ( !result.ok ) return dispatch( logout( result.errorMessage  ))
+        if ( !result.ok ) return dispatch( logout( result  ))
 
         dispatch( login (result) )
 
@@ -40,7 +40,6 @@ export const startCreateUserWithEmailPassword = ( { email, password, displayName
 export const startLoginWithEmailPassword = ({ email, password }) => {
 
     return async ( dispatch ) => {
-
         dispatch( checkingCredentials() )
 
         const result = await loginWithEmailPassword({ email, password })
@@ -48,7 +47,6 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
         if ( !result.ok ) return dispatch( logout( result  ))
 
         dispatch( login (result) )
-
     }
 
 }

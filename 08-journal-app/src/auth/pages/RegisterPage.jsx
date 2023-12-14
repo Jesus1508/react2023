@@ -22,18 +22,14 @@ const formValidations = {
 export const RegisterPage = () => {
 
     const dispatch = useDispatch()
-
     const [formSubmited, setFormSubmited] = useState(false)
-
     const { status, errorMessage } = useSelector(state => state.auth)
-
     const isCheckingAuthentication = useMemo( () => status === 'checking', [ status ] )
 
     const { 
         formState, displayName, email, password, onInputChange,
         isFormValid, displayNameValid, emailValid, passwordValid, 
     } = useForm( formData, formValidations )
-
 
     const onSubmit = ( event ) => {
         event.preventDefault()
@@ -42,7 +38,6 @@ export const RegisterPage = () => {
         if( !isFormValid ) return
 
         dispatch( startCreateUserWithEmailPassword( formState ) )
-        
     }
 
     return (
